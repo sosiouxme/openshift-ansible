@@ -33,12 +33,23 @@ class DockerImageAvailability(DockerHostMixin, OpenShiftCheck):
     # we use python-docker-py to check local docker for images, and skopeo
     # to look for images available remotely without waiting to pull them.
     dependencies = ["python-docker-py", "skopeo"]
-    skopeo_img_check_command = "timeout 10 skopeo inspect --tls-verify=false docker://{registry}/{image}"
 
     def __init__(self, *args, **kwargs):
         super(DockerImageAvailability, self).__init__(*args, **kwargs)
         # record whether we could reach a registry or not (and remember results)
         self.reachable_registries = {}
+        self.skopeo_img_check_command = "timeout 10 skopeo inspect --tls-verify=false"
+
+        oreg_auth_user = self.get_var('oreg_auth_user', default='')
+        oreg_auth_password = self.get_var('oreg_auth_password', default='')
+        if oreg_auth_user != '' and oreg_auth_password != '':
+            # skopeo should complete without complaining if credentials are
+            # passed to an unauthenticated registry.
+            self.skopeo_img_check_command += " --creds='{oau}:{oap}'".format(oau=oreg_auth_user, oap=oreg_auth_password)
+
+        # We append the registry/image part last, all the options must be grouped
+        # together or skopeo will fail
+        self.skopeo_img_check_command += " docker://{registry}/{image}"
 
     def is_active(self):
         """Skip hosts with unsupported deployment types."""
@@ -170,6 +181,9 @@ class DockerImageAvailability(DockerHostMixin, OpenShiftCheck):
         elif deployment_type == 'openshift-enterprise' and "registry.access.redhat.com" not in regs:
             regs.append("registry.access.redhat.com")
 
+        oreg_url = self.get_var("oreg_url", default="")
+        if oreg_url != '':
+            regs.append(oreg_url.split('/')[0])
         return regs
 
     def available_images(self, images, default_registries):
