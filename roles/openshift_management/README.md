@@ -52,10 +52,10 @@ This role will allow a user to install CFME 4.6 or MIQ on an OCP
 default deployment parameters. This role allows the user to deploy
 different installation flavors:
 
-* **Fully Podified** - In this way all application services are ran as
+* **Fully Podified** - In this way all application services are run as
   pods in the container platform.
 * **External Database** - In this way the application utilizes an
-  externally hosted database server. All other services are ran in the
+  externally hosted database server. All other services are run in the
   container platform.
 
 This role includes the following storage class options:
@@ -96,7 +96,7 @@ Only required for enterprise
 
 * `openshift_management_install_beta` - by setting this value to
   `true` you acknowledge that this software is currently in BETA and
-  support may be limited nonexistent. This is required to begin the
+  support may be limited or nonexistent. This is required to begin the
   installation.
 
 

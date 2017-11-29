@@ -440,12 +440,12 @@ openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 
 # NFS Host Group
 # An NFS volume will be created with path "nfs_directory/volume_name"
 # on the host within the [nfs] host group.  For example, the volume
-# path using these options would be "/exports/registry".  "exports" is
+# path using these options would be "/exports/registry".  "exports"
 # is the name of the export served by the nfs server.  "registry" is
 # the name of a directory inside of "/exports".
 #openshift_hosted_registry_storage_kind=nfs
 #openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-# nfs_directory must conform to DNS-1123 subdomain must consist of lower case
+# nfs_directory segments must conform to DNS-1123 subdomain, consisting of lower case
 # alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character
 #openshift_hosted_registry_storage_nfs_directory=/exports
 #openshift_hosted_registry_storage_nfs_options='*(rw,root_squash)'
@@ -455,13 +455,13 @@ openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 
 # External NFS Host
 # NFS volume must already exist with path "nfs_directory/_volume_name" on
 # the storage_host. For example, the remote volume path using these
-# options would be "nfs.example.com:/exports/registry".  "exports" is
+# options would be "nfs.example.com:/exports/registry".  "exports"
 # is the name of the export served by the nfs server.  "registry" is
 # the name of a directory inside of "/exports".
 #openshift_hosted_registry_storage_kind=nfs
 #openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
 #openshift_hosted_registry_storage_host=nfs.example.com
-# nfs_directory must conform to DNS-1123 subdomain must consist of lower case
+# nfs_directory segments must conform to DNS-1123 subdomain, consisting of lower case
 # alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character
 #openshift_hosted_registry_storage_nfs_directory=/exports
 #openshift_hosted_registry_storage_volume_name=registry
